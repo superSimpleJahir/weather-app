@@ -5,40 +5,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather app</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="weather.css">
 </head>
 
 <body>
 
-  <div class="card">
-    <form class="search">
-      <input type="text" placeholder="Enter city name" spellcheck="false">
-      <button><img src="./images/search.png" alt=""></button>
-    </form>
+  <div class="container">
+    <div class="search_box">
+      <i class="fa-solid fa-location-dot"></i>
+      <input type="text" placeholder="Enter your location">
+      <button class="fa-solid fa-magnifying-glass"></button>
+    </div>
 
-    <div class="weather">
-      <img src="./images/rain.png" class="weather_icon">
-      <h1 class="temp">22°C</h1>
-      <h2 class="city">New York</h2>
-      <div class="details">
-        <div class="col">
-          <img src="./images/humidity.png">
-          <div>
-            <p class="humidity">50%</p>
-            <p>Humidity</p>
-          </div>
-        </div>
-        <div class="col">
-          <img src="./images/wind.png">
-          <div>
-            <p class="wind">15 km/h</p>
-            <p>Wind speed</p>
-          </div>
+    <div class="not_found">
+      <img src="./img/404.png">
+      <p>Oops! Invalid Location : </p>
+    </div>
+
+    <div class="weather_box">
+      <img src="">
+      <p class="temperature"></p>
+      <p class="description"></p>
+    </div>
+
+    <div class="weather_details">
+
+      <div class="humidity">
+        <i class="fa-solid fa-water"></i>
+        <div class="text">
+          <span></span>
+          <p>Humidity</p>
         </div>
       </div>
+
+      <div class="wind">
+        <i class="fa-solid fa-wind"></i>
+        <div class="text">
+          <span></span>
+          <p>Wind Speed</p>
+        </div>
+      </div>
+
     </div>
   </div>
-  <script src="script.js"></script>
+
+
+
+  <script src="https://kit.fontawesome.com/74951587ee.js" crossorigin="anonymous"></script>
+  <script src="weather.js"></script>
 </body>
 
 </html>

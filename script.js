@@ -1,22 +1,73 @@
-const apikye = '0f680d4ae72e055fbbba01860a3f1ea8';
-const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
+const container = document.querySelector('.container');
+const search = document.querySelector('.search_box button');
+const weatherBox = document.querySelector('.weather_box');
+const weatherDetails = document.querySelector('.weather_details');
+const error404 = document.querySelector('.not_found');
 
-const searchBox = document.querySelector('.search input');
-const searchBtn = document.querySelector('.search button');
+search.addEventListener('click', () => {
+  const APIKey = '0f680d4ae72e055fbbba01860a3f1ea8';
+  const city = document.querySelector('.search_box input').value;
 
-async function checkWeather(city) {
-  const response = await fetch(apiUrl + city + `&appid=${apikye}`);
-  var data = await response.json();
 
-  console.log(data);
+  if (city == '')
+    return;
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIKey}`)
+    .then(response => response.json())
+    .then(json => {
 
-  document.querySelector('.city').innerHTML = data.name;
-  document.querySelector('.temp').innerHTML = Math.round(data.main.temp) + `°C`;
-  document.querySelector('.humidity').innerHTML = data.main.humidity + `%`;
-  document.querySelector('.wind').innerHTML = data.wind.speed + `km/h`;
-}
-// checkWeather('comilla');
-searchBtn.addEventListener("click", () => {
-  checkWeather(searchBox.value);
-})
-// console.log(searchBox.value);
+      if (json.cod === '404') {
+        container.style.height = '400px';
+        weatherBox.style.display = 'none';
+        weatherDetails.style.display = 'none';
+        error404.style.display = 'block';
+        error404.classList.add('fadeIn');
+        return;
+      }
+      error404.style.display = 'none';
+      error404.classList.remove('fadeIn');
+
+      const image = document.querySelector('.weather_box img');
+      const temperature = document.querySelector('.weather_box .temperature');
+      const description = document.querySelector('.weather_box .description');
+      const humidity = document.querySelector('.weather_details .humidity span');
+      const wind = document.querySelector('.weather_details .wind span');
+
+      switch (json.weather[0].main) {
+        case 'Clear':
+          image.src = './img/clear.png';
+          break;
+
+        case 'Rain':
+          image.src = './img/rain.png';
+          break;
+
+        case 'Snow':
+          image.src = './img/snow.png';
+          break;
+
+        case 'Cloud':
+          image.src = './img/cloud.png';
+          break;
+
+        case 'Haze':
+          image.src = './img/haze.png';
+          break;
+
+        default:
+          image.src = '';
+      }
+
+
+      temperature.innerHTML = `${parseInt(json.main.temp)} <span>°C</span>`;
+      description.innerHTML = `${json.weather[0].description}`;
+      humidity.innerHTML = `${json.main.humidity}%`;
+      wind.innerHTML = `${parseInt(json.wind.speed)}Km/h`;
+
+      weatherBox.style.display = '';
+      weatherDetails.style.display = '';
+      weatherBox.classList.add('fadeIn');
+      weatherDetails.classList.add('fadeIn');
+      container.style.height = '590px';
+
+    });
+});
